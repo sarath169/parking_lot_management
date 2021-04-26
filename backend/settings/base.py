@@ -47,6 +47,11 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
 
     # custom apps
+    'apps.authentication',
+    'apps.operation_dashboard',
+    'apps.parking',
+    'apps.payments',
+    'apps.vehicles',
 
 ]
 
