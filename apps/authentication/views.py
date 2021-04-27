@@ -20,9 +20,9 @@ def signup(request):
         form = SignUpForm(request.POST)
         if form.is_valid():
             user = User.objects.create(username=form.cleaned_data.get('email'))
-            raw_password=user.set_password(raw_password=form.cleaned_data.get('password1', None))
+            user.set_password(raw_password=form.cleaned_data.get('password1', None))
             user.save()
-            user = authenticate(username=user, password=raw_password)
+            # user = authenticate(username=user, password=raw_password)
             login(request, user)
             return redirect('/auth/login/')
     else:
