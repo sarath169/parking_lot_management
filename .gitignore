@@ -8,3 +8,5 @@ apps/payments/__pycache__
 apps/vehicles/__pycache__
 backend/__pycache__
 backend/__pycache__/urls.cpython-37.pyc
+.env
+backend/settings/.env
