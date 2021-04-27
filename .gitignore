@@ -12,3 +12,10 @@ backend/__pycache__/urls.cpython-37.pyc
 backend/settings/.env
 backend/__pycache__/__init__.cpython-37.pyc
 backend/__pycache__/wsgi.cpython-37.pyc
+
+apps/authentication/migrations/__pycache__/__init__.cpython-36.pyc
+apps/operation_dashboard/migrations/__pycache__/__init__.cpython-36.pyc
+apps/parking/migrations/__pycache__/__init__.cpython-36.pyc
+apps/payments/migrations/__pycache__/__init__.cpython-36.pyc
+apps/vehicles/migrations/__pycache__/__init__.cpython-36.pyc
+apps/authentication/migrations/
