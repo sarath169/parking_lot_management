@@ -1,0 +1,17 @@
+<h1 class=" active-polls">Active Polls</h1>
+{% if vehicles_list %}
+    <ol>
+    {% for vehicle in vehicles_list %}
+
+    <div class="">
+      <li ><a class="question-list" href="{% url 'vehicle:return_qr' vehicle.id %}">{{vehicle.number}}</a></li>
+    </div>
+
+    {% endfor %}
+    </ol>
+{% else %}
+    <p>No polls are available.</p>
+
+{% endif %}
+
+{{image}}

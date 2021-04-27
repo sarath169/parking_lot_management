@@ -21,6 +21,17 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 TEMPLATES_DIR = os.path.join(BASE_DIR,'templates')
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
+LOGIN_URL = 'auth/login/'
+
+LOGOUT_REDIRECT_URL = 'auth/login/'
+
+LOGIN_REDIRECT_URL = 'vehicles/'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
