@@ -22,14 +22,37 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.template.loader import render_to_string
 
 from .tokens import account_activation_token
+import stripe
+from django.views.generic.base import TemplateView
+from backend.settings import base
 
+stripe.api_key= base.STRIPE_SECRET_KEY
 
 def account_activation_sent(request):
     return render(request, 'authentication/account_activation_sent.html')
 
 
-def credit_card(request):
-    return render(request, 'authentication/credit_card.html')
+
+
+class CreditPageView(TemplateView):
+    template_name = "authentication/credit_card.html"
+
+    def get_context_data(self, **kwargs):
+        context=super().get_context_data(**kwargs)
+        context['key']=base.STRIPE_PUBLISHABLE_KEY
+       
+        return context
+
+def charge(request):
+    if request.method=='POST':
+        charge=stripe.Charge.create(
+            amount=2000,
+            currency='inr',
+            description='Payment Gateway',
+            source=request.POST['stripeToken']
+        )
+        return render(request, "authentication/charge.html")
+
 
 
 def activate(request, uidb64, token):
