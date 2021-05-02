@@ -10,3 +10,9 @@ class SignUpForm(UserCreationForm):
     class Meta:
         model = User
         fields = ('email', 'password1', 'password2', )
+
+
+class CreditCardForm(forms.Form):
+
+    Card_Number = forms.IntegerField( help_text='Required. Inform a valid credit card number.')
+    

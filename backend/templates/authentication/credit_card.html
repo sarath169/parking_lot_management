@@ -1,0 +1,106 @@
+<!-- 
+    <form action="#" method="post" id="payment-form">
+    <div class="form-row">
+      <label for="card-element">
+        Credit or debit card
+      </label>
+      <div id="card-element">
+         A Stripe Element will be inserted here. 
+      </div>
+  
+      Used to display Element errors.
+      <div id="card-errors" role="alert"></div>
+    </div>
+  
+    <button>Submit Payment</button>
+  </form>
+
+  <script src="https://js.stripe.com/v3/"></script>
+  <script>
+
+$(document).ready(function(){
+
+// jQuery methods go here...
+var cardNumberElement = elements.create('cardNumber');
+
+
+var cardElement = elements.getElement('card');
+cardElement.mount('#card-element');
+});
+  </script> -->
+
+
+<!--   
+  <!DOCTYPE html>
+<html>
+<head>
+<title>Page Title</title>
+
+<script src="https://www.paypal.com/sdk/js?client-id=AQrvE8r2xy1fuGrzBHg2tcnXcbfRnZXec15Fo0hBl5KqXIhbuWsp-7_laQ7HFCNSejcdSbDl_pOl-0uC"></script>
+
+</head>
+<body> -->
+    <!-- <p id="paypal-button-container"></p>
+
+    <script>
+      paypal.Buttons().render('#paypal-button-container')
+    </script>
+    
+    <script
+      src="https://www.paypal.com/sdk/js?client-id=AQrvE8r2xy1fuGrzBHg2tcnXcbfRnZXec15Fo0hBl5KqXIhbuWsp-7_laQ7HFCNSejcdSbDl_pOl-0uC" async>
+    </script> -->
+<!-- 
+
+<script>
+
+    $(document).ready(function(){
+    
+    // jQuery methods go here...
+    var PAYPAL_SCRIPT = 'https://www.paypal.com/sdk/js?client-id=AQrvE8r2xy1fuGrzBHg2tcnXcbfRnZXec15Fo0hBl5KqXIhbuWsp-7_laQ7HFCNSejcdSbDl_pOl-0uC';
+  var script = document.createElement('script');
+  script.setAttribute('src', PAYPAL_SCRIPT);
+  document.head.appendChild(script);
+    });
+      </script> 
+
+<p id="paypal-button-container"></p>
+
+<script>
+   document.querySelector('#myRadioField')
+     .addEventListener('click', function() {
+       paypal.Buttons().render('#paypal-button-container')
+     });
+</script>
+<p id="paypal-button-container"></p>
+
+<script>
+   document.querySelector('#paypal-button-container')
+     .style.display = '';
+
+   paypal.Buttons().render('#paypal-button-container');
+
+   document.querySelector('#myRadioField')
+     .addEventListener('click', function() {
+       document.querySelector('#paypal-button-container')
+         .style.display = 'block';
+     });
+</script>
+    
+</body>
+</html> -->
+
+
+<h1>
+    registration  fee Rs. 20.00
+</h1>
+<form action="{% url 'auth:charge' %}" method="POST">
+{% csrf_token %}
+<script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+data-key = "{{ key }}"
+data-description="Payment  Gateway"
+data-amount="2000"
+data-currency='inr'
+data-locale="auto">
+
+</script>
+</form> 
