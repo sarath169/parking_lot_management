@@ -20,6 +20,10 @@ load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
+LOGIN_REDIRECT_URL='/operators/verify'
+
+LOGOUT_REDIRECT_URL= '/auth/login/'
+
 TEMPLATES_DIR = os.path.join(BASE_DIR,'templates')
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -153,9 +157,5 @@ REST_FRAMEWORK = {
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-STRIPE_PUBLISHABLE_KEY='pk_test_51Il6HiSALXXC13RcWoeQbCBi7hl55lWtqiGIvwmSW3kjuErzMy98NMf1AOlwHK0W0OsZMYBK9ZKJlo1tZTYmPJ9H00AfkocJ06'
-STRIPE_SECRET_KEY= 'sk_test_51Il6HiSALXXC13RcZoNj17roRKMVcGaaQe3B0neRVmd0lV5HgOoNinRzedi21HaOyWsljoyMWN2DVFJK4nNjbllS00ZoxADMkv'
-
-LOGIN_REDIRECT_URL='/operators/verify'
-
-LOGOUT_REDIRECT_URL= '/auth/login/'
+STRIPE_PUBLISHABLE_KEY=os.getenv('STRIPE_PUBLISHABLE_KEY')
+STRIPE_SECRET_KEY= os.getenv('STRIPE_SECRET_KEY')
