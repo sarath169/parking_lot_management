@@ -32,15 +32,13 @@ def account_activation_sent(request):
     return render(request, 'authentication/account_activation_sent.html')
 
 
-
-
 class CreditPageView(TemplateView):
     template_name = "authentication/credit_card.html"
 
     def get_context_data(self, **kwargs):
         context=super().get_context_data(**kwargs)
         context['key']=base.STRIPE_PUBLISHABLE_KEY
-       
+
         return context
 
 def charge(request):
@@ -67,8 +65,8 @@ def activate(request, uidb64, token):
         user.profile.email_confirmed = True
         user.save()
         login(request, user)
-        
-        return redirect('/auth/credit_card/')
+
+        return redirect('/auth/login/')
     else:
         return render(request, 'account_activation_invalid.html')
 
@@ -78,7 +76,7 @@ def signup(request):
         form = SignUpForm(request.POST)
         if form.is_valid():
             user = User.objects.create(username=form.cleaned_data.get('email'))
-            
+
             user.set_password(raw_password=form.cleaned_data.get('password1', None))
             #user.save(commit=False)
             #user = form.save(commit=False)
@@ -112,4 +110,3 @@ def signup(request):
     #else:
      #   form = SignUpForm()
     #return render(request, 'authentication/signup.html', {'form': form})
-

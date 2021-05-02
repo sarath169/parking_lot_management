@@ -30,17 +30,22 @@ def addvehicle(request, user_id):
         form = AddVehicle()
     return render(request, 'vehicle/add_vehicle.html', {'form': form})
 
-class VehicleView(generic.ListView):
-    # login_url = '/login/'
-    template_name = 'vehicle/vehicles.html'
-    context_object_name = 'vehicles_list'
+def ListVehicle(request):
+    user = request.user
+    list = Vehicle.objects.filter(user_id = user.id )
+    return render(request,'vehicle/vehicles.html', {"list":list})
 
-    def get_queryset(self):
-        """
-        Return the last five published questions (not including those set to be
-        published in the future).
-        """
-        return Vehicle.objects.all()
+# class VehicleView(generic.ListView):
+#     # login_url = '/login/'
+#     template_name = 'vehicle/vehicles.html'
+#     context_object_name = 'vehicles_list'
+#
+#     def get_queryset(self):
+#         """
+#         Return the last five published questions (not including those set to be
+#         published in the future).
+#         """
+#         return Vehicle.objects.all()
 
 # TODO we are saving the image, find another way without saving the image
 
@@ -49,4 +54,4 @@ def return_qr(request, vehicle_id):
     qr = generation(vehicle.number)
     img_name = 'backend/static/vehicles/images/'+str(vehicle.id)+vehicle.number+'.png'
     qr.save(img_name)
-    return render(request, 'vehicle/vehicles.html',{'image':img_name})
+    return render(request, 'vehicle/vehicle_qr.html',{'image':img_name})

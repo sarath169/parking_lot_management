@@ -1,7 +1,7 @@
-<h1 class=" active-polls">Active Polls</h1>
-{% if vehicles_list %}
+<h1 class=" active-polls">User's Vehicles</h1>
+{% if list %}
     <ol>
-    {% for vehicle in vehicles_list %}
+    {% for vehicle in list %}
 
     <div class="">
       <li ><a class="question-list" href="{% url 'vehicle:return_qr' vehicle.id %}">{{vehicle.number}}</a></li>

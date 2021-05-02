@@ -10,11 +10,10 @@
    <div>
     <h2>Vehicle photo:</h2>
     <input type="file" id="myfile" name="image" accept="image/*" multiple>
-   
+
     <br>
     <br>
-     <input  class="submit"  type="submit" name="submit" value="Submit" /> 
-     <button><a href="{% url 'operators:logout' %}">Logout</a> </button>
+     <input  class="submit"  type="submit" name="submit" value="Submit" />
+     <button><a href="{% url 'auth:logout' %}">Logout</a> </button>
     </div>
 </form>
-  

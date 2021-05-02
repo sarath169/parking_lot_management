@@ -2,10 +2,11 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title></title>
+    <title>User_Dashboard</title>
   </head>
   <body>
     <a href="{% url 'vehicle:add_vehicle' user.id %}">Add Vehicle</a>
+    <a href="{% url 'vehicle:view_vehicles' %}">Registered Vehicles</a>
     <a href="{% url 'auth:logout' %}">Logout</a>
   </body>
 </html>
