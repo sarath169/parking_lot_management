@@ -29,7 +29,7 @@ LOGIN_URL = 'auth/login/'
 
 LOGOUT_REDIRECT_URL = 'auth/login/'
 
-LOGIN_REDIRECT_URL = 'vehicles/'
+LOGIN_REDIRECT_URL = '/vehicle/'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 # Quick-start development settings - unsuitable for production
@@ -158,3 +158,5 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
     )
 }
+STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY')
+STRIPE_PUBLISHABLE_KEY = os.getenv('STRIPE_PUBLISHABLE_KEY')
