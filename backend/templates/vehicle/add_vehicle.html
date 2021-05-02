@@ -9,55 +9,16 @@
 
   </head>
   <body>
-    <input id="text" type="text" name="" value="">
-    <button id= "button" type="button" name="button">submit</button>
-    <div id= "image" class="image">
-      <img src="" alt="">
-      <p id="p_image" ></p>
+    <form method="post"  novalidate>
+      {% csrf_token %}
+      {% for x in form %}
+      <div class="">
+        {{x.label}}{{x}}
+          <small id="id_{{x.label}}" ></small>
+      </div>
+      {% endfor %}
+    <button id= "button" name="button" type="submit">submit</button>
     </div>
-    <script type="text/javascript">
-      $('#button').click(function(){
-        const text = $('#text').val();
-        const type = "&type=url"
-        const api = "https://codzz-qr-cods.p.rapidapi.com/getQrcode?value=";
-        const urls = `${api}${text}${type}`;
-        console.log(urls)
-        const settings = {
-  	        "async": true,
-  	         "crossDomain": true,
-  	         "url": urls,
-  	         "method": "GET",
-          	"headers": {
-          		"x-rapidapi-key": "4cd2486778msh659980700fcf2a1p1312ccjsnfec37943a0b2",
-          		"x-rapidapi-host": "codzz-qr-cods.p.rapidapi.com"
-          	}
-          };
 
-          $.ajax(settings).done(function (response) {
-          	console.log(response);
-              $("#p_image").html(response);
-          });
-      // const settings = {
-      //     	"async": true,
-      //     	"crossDomain": true,
-      //     	"url": "https://dev4fun007-qr-code-generator-v1.p.rapidapi.com/qrcode?height=100&width=100",
-      //     	"method": "POST",
-      //     	"headers": {
-      //     		"content-type": "text/plain",
-      //     		"x-rapidapi-key": "4cd2486778msh659980700fcf2a1p1312ccjsnfec37943a0b2",
-      //     		"x-rapidapi-host": "dev4fun007-qr-code-generator-v1.p.rapidapi.com"
-      //     	},
-      //     	"data": "hi, please ping this url www.google.com"
-      //     };
-      //
-      //     $.ajax(settings).done(function (response) {
-      //       // x.send(JSON.stringify(data));
-      //       $("#p_image").html(response);
-      //
-      //     	console.log(JSON.parse(response));
-      //     });
-
-        });
-    </script>
   </body>
 </html>
