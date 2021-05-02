@@ -14,5 +14,5 @@ apps/operation_dashboard/migrations/
 apps/operation_dashboard/__pycache__/
 apps/parking/__pycache__/
 apps/payments/__pycache__/
-apps/payments/migrations/
 apps/parking/migrations/
+apps/payments/migrations
