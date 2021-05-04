@@ -1,0 +1,8 @@
+Django==3.2.1
+mysqlclient==2.0.3
+opencv-python==4.5.1.48
+python-dotenv==0.17.1
+pyzbar==0.1.8
+qrcode==6.1
+six==1.15.0
+stripe==2.56.0

@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>User_Dashboard</title>
+  </head>
+  <body>
+    <a href="{% url 'user:add_vehicle' user.id %}">Add Vehicle</a>
+    <a href="{% url 'user:view_vehicles' %}">Registered Vehicles</a>
+    <a href="{% url 'auth:logout' %}">Logout</a>
+  </body>
+</html>

@@ -1,6 +1,0 @@
-Django==3.1.7
-djangorestframework==3.12.4
-mysqlclient==2.0.3
-python-dotenv==0.17.0
-
-Please Create a folder backend/static/vehicles/images for saving the qr codes.
