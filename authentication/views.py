@@ -79,7 +79,7 @@ def signup(request):
                 'token': account_activation_token.make_token(user),
             })
             email_from = settings.EMAIL_HOST_USER
-            to=user.email            
+            to=user.email
             send_mail(
                 subject,
                 message,
@@ -90,17 +90,3 @@ def signup(request):
     else:
         form = SignUpForm()
     return render(request, 'authentication/signup.html', {'form': form})
-# Create your views here.
-#def signup(request):
- #   if request.method == 'POST':
-  #      form = SignUpForm(request.POST)
-   #     if form.is_valid():
-    #        user = User.objects.create(username=form.cleaned_data.get('email'))
-     #       user.set_password(raw_password=form.cleaned_data.get('password1', None))
-      #      user.save()
-       #     # user = authenticate(username=user, password=raw_password)
-        #    login(request, user)
-         #   return redirect('/auth/login/')
-    #else:
-     #   form = SignUpForm()
-    #return render(request, 'authentication/signup.html', {'form': form})

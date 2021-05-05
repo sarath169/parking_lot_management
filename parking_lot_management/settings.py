@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'authentication.apps.AuthenticationConfig',
     'operators.apps.OperatorsConfig',
     'user_dash.apps.UserDashConfig',
+    'parking.apps.ParkingConfig',
 ]
 
 MIDDLEWARE = [
@@ -125,7 +126,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Kolkata'
 
 USE_I18N = True
 
