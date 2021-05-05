@@ -1,15 +1,18 @@
+{% extends 'authentication/base.html' %}
+{% load static %}
 
+{% block op_Dashboard %}
 
-
-<H1>verified. you are a operator.  </h1>
-    <H2>Welcome to operator dashboard:</H2>
+<div class="container"  style="margin-top: 5%;">
+    
+    <H1>Welcome to operator dashboard:</H1>
 
 
     <form method="post" action="" >
         {% csrf_token %}
    <div>
     <h2>Vehicle photo:</h2>
-    <input type="file" id="myfile" name="image" accept="image/*" multiple>
+    <a class="btn" href="{% url 'operators:qr_scanner' %}" style="font-size: 30px;">Entry</a>
 
     <br>
     <br>
@@ -17,3 +20,5 @@
      <button><a href="{% url 'auth:logout' %}">Logout</a> </button>
     </div>
 </form>
+</div>
+{% endblock %}

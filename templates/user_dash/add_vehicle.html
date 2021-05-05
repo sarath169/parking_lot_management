@@ -1,3 +1,11 @@
+{% extends 'authentication/base.html' %}
+{% load static %}
+
+
+
+
+{% block reg_page %}
+
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
@@ -9,17 +17,55 @@
 
   </head>
   <body>
-    <form method="post"  novalidate>
+
+    <div class="container text-center" style="font-size:30px; margin-top: 10%; border: 2px solid black; padding-top: 2%;" >
+
+    <form method="post"  onsubmit="return validateForm()">
       {% csrf_token %}
       {% for x in form %}
       <div class="">
-        {{x.label}}{{x}}
+        {{x.label}} {{x}}
+        <br>
+          <span id="error_message" style="color: red;"></span>
           <small id="id_{{x.label}}" ></small>
       </div>
+      <br>
       {% endfor %}
+     
     <button id= "button" name="button" type="submit">submit</button>
     <a href="{% url 'auth:logout' %}">Logout</a>
+    <br> <br>
     </div>
 
+   </form>
+  
+   </div>
+
+
+
+    <script>
+     
+     function validateForm() {
+      var reg_no = document.getElementById("id_number").value;
+      console.log(reg_no)
+      const pattern = /^[A-Z]{2}[0-9]{2}[A-Z]{2}[0-9]{4}$/
+      
+      if ( reg_no.match(pattern)) {
+        return true;
+      }
+      else{
+        document.getElementById("error_message").innerHTML="** Invalid vehicle number. Use uppercase and no gaps in between Number."
+        return false;
+      }
+    }
+    // const password1 = $('#id_password1').val();
+    //       const number = /^[0-9]*[0-9]$/;
+    //       if (password1.match(number)){
+    //         $('#id_Password').show()
+    //       }
+
+    </script>
   </body>
 </html>
+
+{% endblock %}

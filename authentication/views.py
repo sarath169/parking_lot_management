@@ -20,9 +20,6 @@ from django.core.mail import send_mail
 
 stripe.api_key= settings.STRIPE_SECRET_KEY
 
-def account_activation_sent(request):
-    return render(request, 'authentication/account_activation_sent.html')
-
 
 class CreditPageView(TemplateView):
     template_name = "authentication/credit_card.html"
@@ -42,6 +39,10 @@ def charge(request):
             source=request.POST['stripeToken']
         )
         return render(request, "authentication/charge.html")
+
+
+def account_activation_sent(request):
+    return render(request, 'authentication/account_activation_sent.html')
 
 def activate(request, uidb64, token):
     try:
@@ -65,7 +66,7 @@ def signup(request):
         form = SignUpForm(request.POST)
         if form.is_valid():
             user = User.objects.create(username=form.cleaned_data.get('email'))
-            user.set_password(raw_password=form.cleaned_data.get('password1', None))
+            user.set_password(raw_password=form.cleaned_data.get('password1', None))  
             user.is_active = False
             user.email=form.cleaned_data.get('email')
             user.save()
@@ -84,22 +85,8 @@ def signup(request):
                 message,
                 email_from,
                 [to]
-            )
+            )            
             return redirect('/auth/account_activation_sent')
     else:
         form = SignUpForm()
     return render(request, 'authentication/signup.html', {'form': form})
-# Create your views here.
-#def signup(request):
- #   if request.method == 'POST':
-  #      form = SignUpForm(request.POST)
-   #     if form.is_valid():
-    #        user = User.objects.create(username=form.cleaned_data.get('email'))
-     #       user.set_password(raw_password=form.cleaned_data.get('password1', None))
-      #      user.save()
-       #     # user = authenticate(username=user, password=raw_password)
-        #    login(request, user)
-         #   return redirect('/auth/login/')
-    #else:
-     #   form = SignUpForm()
-    #return render(request, 'authentication/signup.html', {'form': form})
