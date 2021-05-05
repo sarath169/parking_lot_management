@@ -27,15 +27,15 @@ def addvehicle(request, user_id):
             user = get_object_or_404(User, pk = user_id)
             veh_number = form.cleaned_data.get('number')
             veh_type = form.cleaned_data.get('type')
-            a=Vehicle(number = veh_number, type = veh_type, user = user )
-            a.save()
+            vehicle_object=Vehicle(number = veh_number, type = veh_type, user = user )
+            vehicle_object.save()
             return redirect('/user/vehicles/')
     else:
         form = AddVehicle()
     return render(request, 'user_dash/add_vehicle.html', {'form': form})
 
 @login_required
-def ListVehicle(request):
+def listvehicles(request):
     login_url = '/login/'
     user = request.user
     list = Vehicle.objects.filter(user_id = user.id )
@@ -43,8 +43,11 @@ def ListVehicle(request):
 
 def return_qr(request, vehicle_id):
     vehicle = get_object_or_404(Vehicle, pk=vehicle_id)
+    request
     qr = generation(vehicle.number)
-    # img_name = 'media/images/'+str(vehicle.id)+vehicle.number+'.png'
-    img_name = 'http://127.0.0.1:8000/media/images/1ap16bp9591.png'
-    # qr.save(img_name)
-    return render(request, 'user_dash/vehicle_qr.html',{'image':img_name})
+    print(qr)
+    img_name = 'media/images/'+str(request.user.id)+str(vehicle.number)+'.png'
+    qr.save(img_name)
+    print(img_name)
+    hosted_link = 'http://127.0.0.1:8000/'+img_name
+    return render(request, 'user_dash/vehicle_qr.html',{'image':hosted_link})

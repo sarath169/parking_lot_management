@@ -65,10 +65,7 @@ def signup(request):
         form = SignUpForm(request.POST)
         if form.is_valid():
             user = User.objects.create(username=form.cleaned_data.get('email'))
-
             user.set_password(raw_password=form.cleaned_data.get('password1', None))
-            #user.save(commit=False)
-            #user = form.save(commit=False)
             user.is_active = False
             user.email=form.cleaned_data.get('email')
             user.save()
@@ -82,7 +79,6 @@ def signup(request):
             })
             email_from = settings.EMAIL_HOST_USER
             to=user.email
-            user.email_user(subject, message)
             send_mail(
                 subject,
                 message,
