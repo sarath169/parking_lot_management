@@ -23,6 +23,7 @@ urlpatterns = [
     path('auth/', include('authentication.urls')),
     path('operators/', include('operators.urls')),
     path('user/', include('user_dash.urls')),
+    path('parking/', include('parking.urls')),
 
 ]
 urlpatterns+= static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
