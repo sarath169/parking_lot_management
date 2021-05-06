@@ -51,11 +51,9 @@ class EntryView(View):
             if qrcode_info:
                 camera.release()
                 cv2.destroyAllWindows()
-                vehicle = get_object_or_404(Vehicle, number=qrcode_info)
-                
+                vehicle = get_object_or_404(Vehicle, number=qrcode_info)                
                 if ParkingHistory.objects.filter(vehicle_id = vehicle.id, out_datetime = None):
-                    print('********'*10)
-                
+                    print('********'*10)            
                     return render(request, self.template_name1,{'error_message':'Vehicle already entered in parking'})
                 else:
                     entry_object = ParkingHistory(vehicle = vehicle)
