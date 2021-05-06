@@ -50,4 +50,4 @@ def return_qr(request, vehicle_id):
     qr.save(img_name)
     print(img_name)
     hosted_link = 'http://127.0.0.1:8000/'+img_name
-    return render(request, 'user_dash/vehicle_qr.html',{'image':hosted_link})
+    return render(request, 'user_dash/vehicle_qr.html',{'image': hosted_link})
