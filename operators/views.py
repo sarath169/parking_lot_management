@@ -46,8 +46,7 @@ class EntryView(View):
             cv2.imshow('QR code reader', frame)
             #4-help to close the camera
             if cv2.waitKey(1) & 0xFF == 27:                
-                break
-                 
+                break                 
             if qrcode_info:
                 camera.release()
                 cv2.destroyAllWindows()
@@ -57,9 +56,7 @@ class EntryView(View):
                 else:
                     entry_object = ParkingHistory(vehicle = vehicle)
                     entry_object.save()
-                    return render(request, self.template_name, {'qrcode_info':qrcode_info}) 
-                                   
-                
+                    return render(request, self.template_name, {'qrcode_info':qrcode_info})            
         camera.release() 
         cv2.destroyAllWindows()                     
         return render(request, self.template_name1)
@@ -84,21 +81,15 @@ class ExitView(View):
             cv2.imshow('QR code reader', frame)
             #4-help to close the camera
             if cv2.waitKey(1) & 0xFF == 27:                
-                break
-                 
+                break                 
             if qrcode_info:
                 camera.release()
                 cv2.destroyAllWindows()  
-                vehicle = get_object_or_404(Vehicle, number=qrcode_info)
-                
-                exit_updation = ParkingHistory.objects.get(vehicle_id = vehicle.id, out_datetime = None)
-                
-                exit_updation.out_datetime = timezone.now()
-              
-                
+                vehicle = get_object_or_404(Vehicle, number=qrcode_info)                
+                exit_updation = ParkingHistory.objects.get(vehicle_id = vehicle.id, out_datetime = None)                
+                exit_updation.out_datetime = timezone.now()                
                 exit_updation.charges =charge(exit_updation.in_datetime, exit_updation.out_datetime)
-                exit_updation.save()
-                
+                exit_updation.save()                
                 return render(request, self.template_name, {'qrcode_info':qrcode_info}) 
         camera.release() 
         cv2.destroyAllWindows()                     
