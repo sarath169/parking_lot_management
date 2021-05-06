@@ -6,6 +6,7 @@ from django.contrib.auth.models import User , Group
 from django.utils import timezone
 from django.views import View
 from pyzbar import pyzbar
+from django.core.exceptions import ObjectDoesNotExist
 
 from parking import views
 from parking.views import charge
@@ -21,7 +22,7 @@ class VerifyView(View):
         try:
             enter=request.user
             user=User.objects.get(id=enter.id)
-            group=Group.objects.get(id=1)        
+            group=Group.objects.get(id=1)
             group_1=user.groups.get(id=group.id)
             return render(request, 'operator/op_dashboard.html')
         except:
@@ -41,31 +42,35 @@ class EntryView(View):
             qrcode_info=None
             #3-start decode the qrcode
             qrcodes = pyzbar.decode(frame)
+            cv2.imshow('QR', frame)
+            print(qrcodes, "%%%%%")
             for qrcode in qrcodes:
-                qrcode_info = qrcode.data.decode('utf-8')              
-            cv2.imshow('QR code reader', frame)
+                print(qrcodes)
+                qrcode_info = qrcode.data.decode('utf-8')
+
             #4-help to close the camera
-            if cv2.waitKey(1) & 0xFF == 27:                
-                break                 
+            if cv2.waitKey(1) & 0xFF == 27:
+                break
             if qrcode_info:
                 camera.release()
                 cv2.destroyAllWindows()
-                vehicle = get_object_or_404(Vehicle, number=qrcode_info)
+                vehicle = get_object_or_404(Vehicle, number = qrcode_info)
                 if ParkingHistory.objects.filter(vehicle_id = vehicle.id, out_datetime = None):
+                    print('*****'*10)
                     return render(request, self.template_name1,{'error_message': 'Vehicle already entered in parking'})
                 else:
                     entry_object = ParkingHistory(vehicle = vehicle)
                     entry_object.save()
-                    return render(request, self.template_name, {'qrcode_info':qrcode_info})            
-        camera.release() 
-        cv2.destroyAllWindows()                     
-        return render(request, self.template_name1)
+                    return render(request, self.template_name, {'qrcode_info':qrcode_info})
+        camera.release()
+        cv2.destroyAllWindows()
+        return render(request, self.template_name)
 
 class ExitView(View):
 
     template_name= 'operator/parking.html'
     template_name1='operator/op_dashboard.html'
-    
+
     def get(self,request):
         #1-turning on the camera of the computer using OpenCV
         camera = cv2.VideoCapture(0)
@@ -76,24 +81,28 @@ class ExitView(View):
             qrcode_info=None
             #3-start decode the qrcode
             qrcodes = pyzbar.decode(frame)
+            cv2.imshow('QR', frame)
             for qrcode in qrcodes:
-                qrcode_info = qrcode.data.decode('utf-8')              
-            cv2.imshow('QR code reader', frame)
+                qrcode_info = qrcode.data.decode('utf-8')
+
             #4-help to close the camera
-            if cv2.waitKey(1) & 0xFF == 27:                
-                break                 
+            if cv2.waitKey(1) & 0xFF == 27:
+                break
             if qrcode_info:
                 camera.release()
-                cv2.destroyAllWindows()  
-                vehicle = get_object_or_404(Vehicle, number=qrcode_info)                
-                exit_updation = ParkingHistory.objects.get(vehicle_id = vehicle.id, out_datetime = None)                
-                exit_updation.out_datetime = timezone.now()                
-                exit_updation.charges =charge(exit_updation.in_datetime, exit_updation.out_datetime)
-                exit_updation.save()                
-                return render(request, self.template_name, {'qrcode_info':qrcode_info}) 
-        camera.release() 
-        cv2.destroyAllWindows()                     
-        return render(request, self.template_name1)
+                cv2.destroyAllWindows()
+                vehicle = get_object_or_404(Vehicle, number=qrcode_info)
+                try:
+                    exit_updation = ParkingHistory.objects.get(vehicle_id = vehicle.id, out_datetime = None)
+                    exit_updation.out_datetime = timezone.now()
+                    exit_updation.charges =charge(exit_updation.in_datetime, exit_updation.out_datetime)
+                    exit_updation.save()
 
-                 
-        
+                except ObjectDoesNotExist:
+                    print("ObjectDoesNotExist")
+                    return render(request, self.template_name1,{'error_message':"There is no entry record"})
+
+                return render(request, self.template_name, {'qrcode_info':qrcode_info})
+        camera.release()
+        cv2.destroyAllWindows()
+        return render(request, self.template_name1)
