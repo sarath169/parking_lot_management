@@ -44,11 +44,10 @@ class EntryView(View):
             #3-start decode the qrcode
             qrcodes = pyzbar.decode(frame)
             cv2.imshow('QR', frame)
-            print(qrcodes, "%%%%%")
+            # print(qrcodes, "%%%%%")
             for qrcode in qrcodes:
-                print(qrcodes)
+                # print(qrcodes)
                 qrcode_info = qrcode.data.decode('utf-8')
-
             #4-help to close the camera
             if cv2.waitKey(1) & 0xFF == 27:
                 break
@@ -57,7 +56,7 @@ class EntryView(View):
                 cv2.destroyAllWindows()
                 vehicle = get_object_or_404(Vehicle, number=qrcode_info)
                 if ParkingHistory.objects.filter(vehicle_id = vehicle.id, out_datetime = None):
-                    print('********'*10)
+                    # print('********'*10)
                     return render(request, self.template_name1,{'error_message':'Vehicle already entered in parking'})
                 else:
                     entry_object = ParkingHistory(vehicle = vehicle)
@@ -98,15 +97,6 @@ class ExitView(View):
                     exit_updation.out_datetime = timezone.now()
                     exit_updation.charges =charge(exit_updation.in_datetime, exit_updation.out_datetime)
                     exit_updation.save()
-                    return render(request, self.template_name1)
-                except ObjectDoesNotExist:
-                    print("ObjectDoesNotExist")
-                    return render(request, self.template_name1, {'error_message':'No entry of this vehicle'})
-
-
-        camera.release()
-        cv2.destroyAllWindows()
-        return render(request, self.template_name)
 
                 except ObjectDoesNotExist:
                     print("ObjectDoesNotExist")
