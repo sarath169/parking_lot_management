@@ -78,7 +78,7 @@
                   </div>
                   
                   <br>
-                  <form method="post" novalidate>
+                  <!-- <form method="post" novalidate>
                     {% csrf_token %}
                     {% for x in form %}
                     <div class="input">
@@ -87,6 +87,9 @@
                         
                         
                     </div>
+                    {% for error in field.errors %}
+                        <p style="color: red">{{ error }}</p>
+                      {% endfor %}
                       <br>
                     {% endfor %}
                  
@@ -96,6 +99,29 @@
                
                   
                     <p><button id="signup" type="submit" class="btn btn-outline-secondary">SignUp</button>
+                </form> -->
+                
+                <form method="post">
+                  {% csrf_token %}
+                  {% for field in form %}
+                    <p>
+                      <div class="input ">
+                      {{ field.label_tag }}
+                      <br>
+                      {{ field }}
+                     </div>
+                      
+                
+                      {% if field.help_text %}
+                     <!--   <small style="color: grey">{{ field.help_text }}</small>  -->
+                      {% endif %}
+                      {% for error in field.errors %}
+                        <p  style="color: red; margin-left: 50px; ">{{ error }}</p>
+                      {% endfor %}
+                    </p>
+                  {% endfor %}
+                  
+                  <button  class="signbtn" type="submit">Create Account</button>
                 </form>
                    </div>
                 </div>
