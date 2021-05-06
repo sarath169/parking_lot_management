@@ -29,7 +29,7 @@ def exit(request, vehicle_id):
 def charge(in_time, out_time):
     datetimeFormat = '%Y-%m-%d %H:%M:%S'
     diff = out_time - in_time
-    return diff.seconds/60
+    return diff.seconds/60*0.25
 
     # days = * 3600 * 24
     # hours =  * 3600
