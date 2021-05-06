@@ -12,6 +12,7 @@ from parking import views
 from parking.views import charge
 from user_dash.models import Vehicle
 from parking.models import ParkingHistory
+from django.core.exceptions import ObjectDoesNotExist
 
 
 # Create your views here.
@@ -54,10 +55,10 @@ class EntryView(View):
             if qrcode_info:
                 camera.release()
                 cv2.destroyAllWindows()
-                vehicle = get_object_or_404(Vehicle, number = qrcode_info)
+                vehicle = get_object_or_404(Vehicle, number=qrcode_info)
                 if ParkingHistory.objects.filter(vehicle_id = vehicle.id, out_datetime = None):
-                    print('*****'*10)
-                    return render(request, self.template_name1,{'error_message': 'Vehicle already entered in parking'})
+                    print('********'*10)
+                    return render(request, self.template_name1,{'error_message':'Vehicle already entered in parking'})
                 else:
                     entry_object = ParkingHistory(vehicle = vehicle)
                     entry_object.save()
@@ -97,6 +98,15 @@ class ExitView(View):
                     exit_updation.out_datetime = timezone.now()
                     exit_updation.charges =charge(exit_updation.in_datetime, exit_updation.out_datetime)
                     exit_updation.save()
+                    return render(request, self.template_name1)
+                except ObjectDoesNotExist:
+                    print("ObjectDoesNotExist")
+                    return render(request, self.template_name1, {'error_message':'No entry of this vehicle'})
+
+
+        camera.release()
+        cv2.destroyAllWindows()
+        return render(request, self.template_name)
 
                 except ObjectDoesNotExist:
                     print("ObjectDoesNotExist")
