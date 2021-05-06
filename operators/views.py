@@ -13,7 +13,7 @@ class VerifyView(View):
         try:
             enter=request.user
             user=User.objects.get(id=enter.id)
-            group=Group.objects.get(id=1)        
+            group=Group.objects.get(id=1)
             group_1=user.groups.get(id=group.id)
             return render(request, 'operator/op_dashboard.html')
         except:
@@ -34,19 +34,16 @@ class QrView(View):
             #3-start decode the qrcode
             qrcodes = pyzbar.decode(frame)
             for qrcode in qrcodes:
-                qrcode_info = qrcode.data.decode('utf-8')              
+                qrcode_info = qrcode.data.decode('utf-8')
             cv2.imshow('QR code reader', frame)
             #4-help to close the camera
-            if cv2.waitKey(1) & 0xFF == 27:                
+            if cv2.waitKey(1) & 0xFF == 27:
                 break
-                 
+
             if qrcode_info:
                 camera.release()
-                cv2.destroyAllWindows()   
-                return render(request, self.template_name, {'qrcode_info':qrcode_info}) 
-        camera.release() 
-        cv2.destroyAllWindows()                     
+                cv2.destroyAllWindows()
+                return render(request, self.template_name, {'qrcode_info':qrcode_info})
+        camera.release()
+        cv2.destroyAllWindows()
         return render(request, self.template_name1)
-        
-            
-        
