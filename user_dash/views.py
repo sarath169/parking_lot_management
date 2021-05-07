@@ -27,6 +27,8 @@ def addvehicle(request, user_id):
             user = get_object_or_404(User, pk = user_id)
             veh_number = form.cleaned_data.get('number')
             veh_type = form.cleaned_data.get('type')
+            if Vehicle.objects.filter(number = veh_number):
+                return redirect('/user/')
             vehicle_object=Vehicle(number = veh_number, type = veh_type, user = user )
             vehicle_object.save()
             return redirect('/user/vehicles/')

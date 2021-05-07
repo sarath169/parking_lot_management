@@ -1,0 +1,63 @@
+<html>
+    <head>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/3.3.3/adapter.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.10/vue.min.js"></script>
+<script type="text/javascript" src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    </head>
+    <body>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <video id="preview" width="100%"></video>
+                </div>
+                <div class="">
+                  {% if error_message %}<p style="color: #db7258; font-size: 25px;"><strong>{{ error_message }}</strong></p>
+                  {% endif %}
+                </div>
+
+                <form  method="post">
+                  {% csrf_token %}
+                  <div class="col-md-6">
+                    {{form}}
+                      </div>
+                  <button type="submit" name="button">submit</button>
+                </form>
+
+                 <br>
+                <a class="btn" href="{% url 'operators:exit'  %}" style="font-size: 30px;">Exit</a> <br>
+            </div>
+        </div>
+
+        <div class="btn btn-info">
+          <a href="{% url 'operators:verify' %}">back</a>
+        </div>
+
+        <script>
+           let scanner = new Instascan.Scanner({ video: document.getElementById('preview')});
+           Instascan.Camera.getCameras().then(function(cameras){
+               if(cameras.length > 0 ){
+                   scanner.start(cameras[0]);
+               } else{
+                   alert('No cameras found');
+               }
+
+           }).catch(function(e) {
+               console.error(e);
+           });
+
+           scanner.addListener('scan',function(c){
+               document.getElementById('id_qrdata').value=c;
+           });
+
+        </script>
+        <script type="text/javascript">
+          $('#text').change(function() {
+            var number = $('#text').val();
+          })
+
+        </script>
+    </body>
+</html>

@@ -14,6 +14,8 @@ from user_dash.models import Vehicle
 from parking.models import ParkingHistory
 from django.core.exceptions import ObjectDoesNotExist
 
+from .forms import QRForm
+
 
 # Create your views here.
 
@@ -61,10 +63,10 @@ class EntryView(View):
                 else:
                     entry_object = ParkingHistory(vehicle = vehicle)
                     entry_object.save()
-                    return render(request, self.template_name, {'qrcode_info':qrcode_info})
+                    return render(request, self.template_name1)
         camera.release()
         cv2.destroyAllWindows()
-        return render(request, self.template_name)
+        return render(request, self.template_name1)
 
 class ExitView(View):
 
@@ -102,7 +104,49 @@ class ExitView(View):
                     print("ObjectDoesNotExist")
                     return render(request, self.template_name1,{'error_message':"There is no entry record"})
 
-                return render(request, self.template_name, {'qrcode_info':qrcode_info})
+                return render(request, self.template_name1)
         camera.release()
         cv2.destroyAllWindows()
         return render(request, self.template_name1)
+
+def entryscanner(request):
+    print("in the entryscanner")
+    if request.method == 'POST':
+        print("in the entryscanner")
+        form = QRForm(request.POST)
+        if form.is_valid():
+            veh_number = form.cleaned_data.get('qrdata')
+            vehicle = get_object_or_404(Vehicle, number = veh_number)
+            print("in the entryscanner")
+            print(veh_number)
+            if ParkingHistory.objects.filter(vehicle_id = vehicle.id, out_datetime = None):
+                return render(request, 'operator/qr_scanner.html',{'error_message':'Vehicle already entered in parking'})
+            else:
+                entry_object = ParkingHistory(vehicle = vehicle)
+                entry_object.save()
+                return render(request, 'operator/qr_scanner.html')
+    else:
+        form = QRForm()
+    return render(request, 'operator/qr_scanner.html', {'form': form})
+
+def exitscanner(request):
+    if request.method == 'POST':
+        form = QRForm(request.POST)
+        if form.is_valid():
+            veh_number = form.cleaned_data.get('qrdata')
+            vehicle = get_object_or_404(Vehicle, number = veh_number)
+            print("in the exitscanner")
+            try:
+                exit_updation = ParkingHistory.objects.get(vehicle_id = vehicle.id, out_datetime = None)
+                exit_updation.out_datetime = timezone.now()
+                exit_updation.charges =charge(exit_updation.in_datetime, exit_updation.out_datetime)
+                exit_updation.save()
+
+            except ObjectDoesNotExist:
+                print("ObjectDoesNotExist")
+                return render(request, 'operator/qr_scanner.html',{'error_message':"There is no entry record"})
+
+            return render(request, 'operator/qr_scanner.html')
+    else:
+        form = QRForm()
+    return render(request, 'operator/qr_scanner.html', {'form': form})

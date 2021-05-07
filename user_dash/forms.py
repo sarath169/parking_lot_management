@@ -6,5 +6,5 @@ vehicle_type= [
     ]
 class AddVehicle(forms.Form):
 
-    number = forms.CharField(label='Vehicle_Reg_Number',max_length=128)
-    type= forms.IntegerField(label='Vehicle_Type', widget=forms.Select(choices=vehicle_type))
+    number = forms.CharField(label='Vehicle Number',max_length=128)
+    type= forms.IntegerField(label='Vehicle Type', widget=forms.Select(choices=vehicle_type))
