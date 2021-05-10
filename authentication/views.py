@@ -16,6 +16,7 @@ from .tokens import account_activation_token
 from .forms import SignUpForm
 from django.conf import settings
 from django.core.mail import send_mail
+from .models import Payment
 
 
 stripe.api_key= settings.STRIPE_SECRET_KEY
@@ -38,7 +39,11 @@ def charge(request):
             description='Payment Gateway',
             source=request.POST['stripeToken']
         )
-        return render(request, "authentication/charge.html")
+        user = request.user
+        print(user)
+        payment_obj = Payment(user = user, status = True)
+        payment_obj.save()
+        return redirect('/user/')
 
 
 def account_activation_sent(request):
@@ -55,16 +60,16 @@ def activate(request, uidb64, token):
         user.profile.email_confirmed = True
         user.save()
         login(request, user)
-        return redirect('/auth/login/')
+        return redirect('/auth/credit_card/')
     else:
         return render(request, 'account_activation_invalid.html')
 
 def signup(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
-        if form.is_valid():                       
+        if form.is_valid():
             user = User.objects.create(username=form.cleaned_data.get('email'))
-            raw_password=user.set_password(raw_password=form.cleaned_data.get('password1', None))            
+            raw_password=user.set_password(raw_password=form.cleaned_data.get('password1', None))
             user.is_active = False
             user.email=form.cleaned_data.get('email')
             user.save()
@@ -83,7 +88,7 @@ def signup(request):
                 message,
                 email_from,
                 [to]
-            )            
+            )
             return redirect('/auth/account_activation_sent')
     else:
         form = SignUpForm()

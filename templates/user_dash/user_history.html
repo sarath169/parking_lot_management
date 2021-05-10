@@ -1,0 +1,17 @@
+<h1 class=" active-polls">User's Vehicles</h1>
+{% if list %}
+    <ol>
+    {% for vehicle in list %}
+
+    <div class="">
+      <li ><a class="question-list" href="{% url 'user:vehicles_history' vehicle.id %}">{{vehicle.number}}</a></li>
+    </div>
+
+    {% endfor %}
+    </ol>
+{% else %}
+    <p>No Vehicles.</p>
+
+{% endif %}
+
+<a href="{% url 'auth:logout' %}">Logout</a>

@@ -1,0 +1,31 @@
+
+<h1 class=" active-polls">Vehicle's Parking History</h1>
+{% if history %}
+<table class="table">
+<thead>
+  <tr>
+    <th scope="col">Number</th>
+    <th scope="col">In-Time</th>
+    <th scope="col">Out-Time</th>
+    <th scope="col">Charges</th>
+  </tr>
+</thead>
+<tbody>
+  {% for entry in history %}
+    <tr>
+      <th scope="row">{{vehicle.number}}</th>
+      <td>{{entry.in_datetime}}</td>
+      <td>{{entry.out_datetime}}</td>
+      <td>{{entry.charges}}</td>
+    </tr>
+
+  {% endfor %}
+  </tbody>
+</table>
+
+{% else %}
+    <p>No History.</p>
+
+{% endif %}
+
+<a href="{% url 'auth:logout' %}">Logout</a>
