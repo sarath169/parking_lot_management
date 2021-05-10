@@ -23,12 +23,12 @@ def exit(request, vehicle_id):
     try:
         exit_updation = ParkingHistory.objects.get(vehicle_id = vehicle_id, out_datetime = None)
         exit_updation.out_datetime = timezone.now()
-        exit_updation.charges =charge(exit_updation.in_datetime, exit_updation.out_datetime)
+        exit_updation.charges =round(charge(exit_updation.in_datetime, exit_updation.out_datetime),2)
         exit_updation.save()
     except ObjectDoesNotExist:
         print("ObjectDoesNotExist")
     return redirect('/user/')
-  
+
 
 def charge(in_time, out_time):
     datetimeFormat = '%Y-%m-%d %H:%M:%S'

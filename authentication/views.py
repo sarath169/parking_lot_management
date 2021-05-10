@@ -16,6 +16,7 @@ from .tokens import account_activation_token
 from .forms import SignUpForm
 from django.conf import settings
 from django.core.mail import send_mail
+from .models import Payment
 
 from django.core.mail import EmailMessage
 from authentication.models import Payment
@@ -31,14 +32,6 @@ class EmailThread(threading.Thread):
     
     def run(self):
         self.email.send()
-    
-# class ChargeThread(threading.Thread):
-#     def __init__(self, charge):
-#         self.charge=charge
-#         threading.Thread.__init__(self)
-#     def run(self):
-#         self.charge.send()
-
 
 def home(request):
     return render(request, 'authentication/home.html')
@@ -60,7 +53,6 @@ def charge(request):
             description='Payment Gateway',
             source=request.POST['stripeToken']
         )
-        
         user=request.user
         payment=Payment( user= user, status=True)
         payment.save()
@@ -89,9 +81,9 @@ def activate(request, uidb64, token):
 def signup(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
-        if form.is_valid():                       
+        if form.is_valid():
             user = User.objects.create(username=form.cleaned_data.get('email'))
-            raw_password=user.set_password(raw_password=form.cleaned_data.get('password1', None))            
+            raw_password=user.set_password(raw_password=form.cleaned_data.get('password1', None))
             user.is_active = False
             user.email=form.cleaned_data.get('email')
             user.save()
@@ -111,8 +103,7 @@ def signup(request):
                 email_from,
                 [to]
             ) 
-            EmailThread(email).start()
-                     
+            EmailThread(email).start()            
             return redirect('/auth/account_activation_sent')
     else:
         form = SignUpForm()
