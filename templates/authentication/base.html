@@ -24,56 +24,29 @@
 
 
     {% block nav %}
-    <header class="nav-stick">
-    <nav class="navbar navbar-expand-lg navbar-light   navbar-light"  >
-        <h2 class="text-info display-7" style="margin-right: 1%; font-weight: 600;" >Parking app</h1>
-       
-      <br>
-          <button class="navbar-toggler " type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon   " ></span>
-          </button>
-      
-        <div class="collapse navbar-collapse "  id="navbarSupportedContent">
-          <ul class="navbar-nav mr-auto" style="font-size:120%" >
-            <li class="nav-item active">
-              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" style="color: black;" href="#">Contact</a>
-            </li>
-          </ul>
-          <div class="pe-site-header__right">
-            <a class="pe-site-header__item head-sign pe-site-header__action" data-cutlass-event="content:navbar:sign_up" href="{% url 'auth:signup' %}">Sign up</a>
-            
-            <a class="pe-site-header__item head-login" style="text-decoration: none;" href="{% url 'auth:login' %}">Log in</a>
-         
-            
-            </div>
-        </div>
-      </nav>
-    </header>
+
     {% endblock %}
-    
-    
+
+
 
     {% block signup %}
     {% endblock %}
 
-    
+
     {% block login %}
     {% endblock %}
 
-        
+
     {% block User_Dashboard %}
     {% endblock %}
 
-         
+
     {% block op_Dashboard %}
     {% endblock %}
 
     {% block reg_page %}
     {% endblock %}
-    
+
     {% block body_content %}
     {% endblock %}
     {% block js_content %}

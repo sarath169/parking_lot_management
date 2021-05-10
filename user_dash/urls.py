@@ -10,5 +10,7 @@ urlpatterns = [
     path('<int:user_id>/add/', views.addvehicle, name='add_vehicle'),
     path('vehicles/', views.listvehicles, name = 'view_vehicles' ),
     path('<int:vehicle_id>/qrcode/', views.return_qr, name = 'return_qr'),
+    path('history/', views.vehicleparking, name = 'history'),
+    path('<int:vehicle_id>/vehicles_history/', views.parking_history, name = 'vehicles_history'),
 
 ]

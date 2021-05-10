@@ -11,12 +11,14 @@ import base64
 from .qr_generator import generation
 from .forms import AddVehicle
 from .models import Vehicle
+from parking.models import ParkingHistory
 
 # Create your views here.
 @login_required
 def index(request):
     login_url = '/login/'
     return render(request,'user_dash/index.html')
+
 
 @login_required
 def addvehicle(request, user_id):
@@ -40,14 +42,30 @@ def addvehicle(request, user_id):
 def listvehicles(request):
     login_url = '/login/'
     user = request.user
-    list = Vehicle.objects.filter(user_id = user.id )
-    return render(request,'user_dash/vehicles.html', {"list":list})
+    vehicles = Vehicle.objects.filter(user_id = user.id )
+    return render(request,'user_dash/vehicles.html', {"list":vehicles})
 
+@login_required
 def return_qr(request, vehicle_id):
+    login_url = '/login/'
     vehicle = get_object_or_404(Vehicle, pk=vehicle_id)
-    request
     qr = generation(vehicle.number)
     img_name = 'media/images/'+str(request.user.id)+str(vehicle.number)+'.png'
     qr.save(img_name)
     hosted_link = 'http://127.0.0.1:8000/'+img_name
     return render(request, 'user_dash/vehicle_qr.html',{'image': hosted_link})
+
+@login_required
+def vehicleparking(request):
+    login_url = '/login/'
+    user = request.user
+    vehicles = Vehicle.objects.filter(user_id = user.id )
+    return render(request,'user_dash/user_history.html', {"list":vehicles})
+
+
+@login_required
+def parking_history(request, vehicle_id):
+    login_url = '/login/'
+    vehicle = get_object_or_404(Vehicle, pk=vehicle_id)
+    history = ParkingHistory.objects.filter(vehicle = vehicle)
+    return render(request,'user_dash/history.html', {"history":history, "vehicle":vehicle})
