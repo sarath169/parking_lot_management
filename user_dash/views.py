@@ -7,7 +7,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils.encoding import force_text,force_bytes
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 import base64
-
+from authentication.decorators import payment_req
 from .qr_generator import generation
 from .forms import AddVehicle
 from .models import Vehicle
@@ -17,7 +17,8 @@ from .models import Vehicle
 def index(request):
     login_url = '/login/'
     return render(request,'user_dash/index.html')
-
+    
+@payment_req()
 @login_required
 def addvehicle(request, user_id):
     login_url = '/login/'
