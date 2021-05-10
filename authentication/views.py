@@ -18,9 +18,23 @@ from django.conf import settings
 from django.core.mail import send_mail
 from .models import Payment
 
+from django.core.mail import EmailMessage
+from authentication.models import Payment
+import threading
 
 stripe.api_key= settings.STRIPE_SECRET_KEY
 
+
+class EmailThread(threading.Thread):
+    def __init__(self, email):
+        self.email=email
+        threading.Thread.__init__(self)
+    
+    def run(self):
+        self.email.send()
+
+def home(request):
+    return render(request, 'authentication/home.html')
 
 class CreditPageView(TemplateView):
     template_name = "authentication/credit_card.html"
@@ -28,7 +42,7 @@ class CreditPageView(TemplateView):
     def get_context_data(self, **kwargs):
         context=super().get_context_data(**kwargs)
         context['key']=settings.STRIPE_PUBLISHABLE_KEY
-
+        
         return context
 
 def charge(request):
@@ -39,10 +53,9 @@ def charge(request):
             description='Payment Gateway',
             source=request.POST['stripeToken']
         )
-        user = request.user
-        print(user)
-        payment_obj = Payment(user = user, status = True)
-        payment_obj.save()
+        user=request.user
+        payment=Payment( user= user, status=True)
+        payment.save()
         return redirect('/user/')
 
 
@@ -53,6 +66,7 @@ def activate(request, uidb64, token):
     try:
         uid = force_text(urlsafe_base64_decode(uidb64))
         user = User.objects.get(pk=uid)
+        
     except (TypeError, ValueError, OverflowError, User.DoesNotExist):
         user = None
     if user is not None and account_activation_token.check_token(user, token):
@@ -74,7 +88,7 @@ def signup(request):
             user.email=form.cleaned_data.get('email')
             user.save()
             current_site = get_current_site(request)
-            subject = 'Activate Your MySite Account'
+            subject = 'Parking App  : Account Activated Successfully.'
             message = render_to_string('authentication/account_activation_email.html', {
                 'user': user,
                 'domain': current_site.domain,
@@ -83,13 +97,15 @@ def signup(request):
             })
             email_from = settings.EMAIL_HOST_USER
             to=user.email
-            send_mail(
+            email= EmailMessage(
                 subject,
                 message,
                 email_from,
                 [to]
-            )
+            ) 
+            EmailThread(email).start()            
             return redirect('/auth/account_activation_sent')
     else:
         form = SignUpForm()
     return render(request, 'authentication/signup.html', {'form': form})
+    

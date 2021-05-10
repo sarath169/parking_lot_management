@@ -5,6 +5,7 @@ from django.contrib.auth.models import User , Group
 from django.utils import timezone
 from django.views import View
 from django.core.exceptions import ObjectDoesNotExist
+
 from rest_framework.generics import CreateAPIView, UpdateAPIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -31,15 +32,15 @@ class VerifyView(View):
             return redirect('/user/')
 
 def entryscanner(request):
-    print("in the entryscanner")
+#     print("in the entryscanner")
     if request.method == 'POST':
-        print("in the entryscanner")
+#         print("in the entryscanner")
         form = QRForm(request.POST)
         if form.is_valid():
             veh_number = form.cleaned_data.get('qrdata')
             vehicle = get_object_or_404(Vehicle, number = veh_number)
-            print("in the entryscanner")
-            print(veh_number)
+#             print("in the entryscanner")
+#             print(veh_number)
             if ParkingHistory.objects.filter(vehicle_id = vehicle.id, out_datetime = None):
                 return render(request, 'operator/qr_scanner.html',{'error_message':'Vehicle already entered in parking'})
             else:
@@ -56,7 +57,7 @@ def exitscanner(request):
         if form.is_valid():
             veh_number = form.cleaned_data.get('qrdata')
             vehicle = get_object_or_404(Vehicle, number = veh_number)
-            print("in the exitscanner")
+#             print("in the exitscanner")
             try:
                 exit_updation = ParkingHistory.objects.get(vehicle_id = vehicle.id, out_datetime = None)
                 exit_updation.out_datetime = timezone.now()
@@ -64,7 +65,7 @@ def exitscanner(request):
                 exit_updation.save()
 
             except ObjectDoesNotExist:
-                print("ObjectDoesNotExist")
+#                 print("ObjectDoesNotExist")
                 return render(request, 'operator/qr_scanner.html',{'error_message':"There is no entry record"})
 
             return render(request, 'operator/qr_scanner.html')

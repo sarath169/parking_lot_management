@@ -142,5 +142,90 @@
  margin-bottom: 10%;
  margin-left: 4%; 
 }
- 
+ /* footer------------------------------------------ */
 
+
+ .footer{
+    background: #455e83;
+
+}
+
+/* feature-------------------------- */
+.common-title-lable {
+    font-family: 'TradeGothic LT CondEighteen';
+    width: 100%;
+    font-size: 30px; font-weight: bold;
+    color: #2980b9 !important;
+    text-transform: uppercase !important;
+}
+
+.home_card i {
+    width: 80px;
+    height: 80px;
+    border: solid 3px #fcb034;
+    margin: auto;
+    border-radius: 50%;
+    line-height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 3%;
+}
+.card-img-top{
+    width: 50px;
+}
+.home_card{
+    background-color: #e8f5fb;
+    height: 150%;
+    width: 2 2 30%;
+    
+    
+}
+.home_card {
+    box-shadow: 3px 3px 10px 0 rgb(0 0 0 / 20%);
+    border: solid 0.2px rgba(112, 112, 112, 0.2);
+    background-color: #e8f5fb;
+    padding: 20px;
+    min-height: 350px;
+    max-height: 350px;
+}
+/* homehead----------------------------------------------------- */
+.gmp-bg {
+    background-color: rgba(255, 255, 255, 0.05);
+    overflow: hidden;
+}
+#gmp-video {
+    width: 100%;
+    z-index: -1;
+    margin: 0 -15px;
+    height:auto;
+}
+
+.get-start{
+    background-color: rgb(69, 150, 69);
+    color: white;
+    margin-top: 5%;
+  font-size: 25px;
+  padding: 6px 10px;
+  margin-right: 3%;
+  border-radius: 5px;
+}
+
+.head_row{
+    margin-top: 10%;
+    margin-bottom: 10%;
+    
+}
+   
+/* op-dash------------------------------------------------------ */
+
+.op_btn{
+    background-color: #295ca0 ;
+    color: white;
+    margin-top: 5%;
+  font-size: 25px;
+  padding: 6px 40px;
+  margin-right: 3%;
+  border-radius: 5px;
+  width: 120%;
+}

@@ -2,24 +2,6 @@
 {% load static %}
 
 
-<!-- 
-  {% block content %}
-    <div class="main-container">
-      <div class="left-container">
-          <h3>Sign In</h3>
-          <form method="post" novalidate>
-            {% csrf_token %}
-            <div class="form-group">
-
-              {{form.as_p }}
-              <button class="btn btn-outline-success my-2 my-sm-0 " type="submit">Login</button>
-            </div>
-          </form>
-        </div>
-        <a href="{% url 'auth:signup' %}">Signup</a>
-    </div>
-    {% endblock content %} -->
-
 
 {% block login %}
 <body style="background: linear-gradient(
@@ -84,4 +66,7 @@
 </div>
 
 
+{% endblock %}
+  
+{% block footer %}
 {% endblock %}
