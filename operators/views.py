@@ -40,8 +40,8 @@ class VerifyView(View):
 def scanner(request):
     return render(request, 'operator/qr_scanner.html')
 
-
 class EntryCreateAPIView(CreateAPIView):
+  
     authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
     serializer_class = EntrySerializer
 

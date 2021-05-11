@@ -1,38 +1,50 @@
+{% extends 'authentication/base.html' %}
+{% load static %}
+
+
 <html>
+ 
     <head>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/3.3.3/adapter.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.10/vue.min.js"></script>
-<script type="text/javascript" src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     </head>
-    <body>
+
+    {% block qr_scanner %}
+  
+    <body style="background-color:rgb(26, 36, 44);">
 
         <div class="container">
-            <div class="row">
-                <div class="col-md-6" style="width: 30%;">
+           <div class="col-lg-12 col-md-12 text-center " style="text-align: center;">
+                <div class=" camera  pb-5" >
                     <video id="preview" width="100%"></video>
-                </div>
-                <div class="">
-                  {% if error_message %}<p style="color: #db7258; font-size: 25px;"><strong>{{ error_message }}</strong></p>
+                </div><br>
+                
+                  
+                <form method="post">
+               
+                  {% if error_message %}<p style="color: rgb(212, 16, 16); font-size: 20px;"><strong>{{ error_message }}</strong></p>
                   {% endif %}
-                </div>
-                <form class="" method="post">
-                  <label for="id_qrdata">Vehicle Number</label>
-                  <input id="id_qrdata" type="text" name="" value="" readonly>
-                  <label for="id_user">User Id</label>
-                  <input id="id_user" type="number" name="" value="" readonly>
-                </form>
-                  <button id="entry" type="button" name="button">Entry</button>
+                  
+                  <div class="qr_result  ">
+                  <input id="id_qrdata" type="text" name="" value="" class = "qr_data" readonly placeholder = "Vehicle Number>
+                  <input id="id_user" type="number" name="" value="" class = "qr_data" readonly placeholder = "User Id">
+                      <br>
+                      
+                      <span> <button class="mx-2 qr_btn" ><a href="{% url 'operators:verify' %} " style="text-decoration:none; color: black">Back</a></button></span>
+                      <span> <button id ="entry" class="qr_btn" type="button" name="button">Submit</button></span>
+                  </div>
+                  <button id="entry" type="button" class =  name="button">Entry</button>
                   <button id="exit" type="button" name="button">Exit</button>
-                 <br>
+                  <br>
+                 </form>
             </div>
         </div>
+        
 
-        <div class="btn btn-info">
-          <a href="{% url 'operators:verify' %}">back</a>
-        </div>
-
+        <script type="text/javascript" src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
         <script>
            let scanner = new Instascan.Scanner({ video: document.getElementById('preview')});
            Instascan.Camera.getCameras().then(function(cameras){
@@ -91,5 +103,8 @@
           });
       })
         </script>
+       
     </body>
+    
 </html>
+{% endblock %}
