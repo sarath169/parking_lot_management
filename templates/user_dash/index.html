@@ -10,15 +10,12 @@
   </head>
   <body>
     <div class="container text-center" style="font-size:30px; margin-top: 10%; border: 2px solid black; padding-top: 2%;" >
-
-
+      <p>{{error_message}}</p>
           <a href="{% url 'user:add_vehicle' user.id %}">Add Vehicle</a> <br>
           <a href="{% url 'user:view_vehicles' %}">Registered Vehicles</a> <br>
           <a href="{% url 'user:history' %}">Parking History</a> <br>
-          <button><a  href="{% url 'auth:logout' %}">Logout</a></button>
-          <br>
-          <br>
     </div>
+    <br>
 
     </body>
 </html>

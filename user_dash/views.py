@@ -7,7 +7,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils.encoding import force_text,force_bytes
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 import base64
-from authentication.decorators import payment_req
+from .decorators import payment_req
 from .qr_generator import generation
 from .forms import AddVehicle
 from .models import Vehicle
