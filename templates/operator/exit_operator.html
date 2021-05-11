@@ -76,19 +76,24 @@
                 number: veh_number,
                 user_id : user,
               };
-            $.ajax({
-            url: url,
-            type: 'PUT',
-            data: user_data,
-            success: function (data, status) {
-                // Do something with the result
-
-                console.log("Data: " + data + "\nStatus: " + status);
-            },
-            error: function(){
-              $('#error_message').html("The Entry for this vehicle is not present")
-            }
-          });
+            if(veh_number){
+              $.ajax({
+              url: url,
+              type: 'PUT',
+              data: user_data,
+              success: function (data, status) {
+                  // Do something with the result
+                  $('#error_message').html("Exit Successful");
+                  console.log("Data: " + data + "\nStatus: " + status);
+              },
+              error: function(){
+                $('#error_message').html("The Entry for this vehicle is not present")
+              }
+            });
+          }
+          else{
+            $('#error_message').html("Please scan the qr-code");
+          }
       })
         </script>
 
