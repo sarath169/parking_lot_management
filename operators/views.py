@@ -37,11 +37,14 @@ class VerifyView(View):
             return redirect('/user/')
         return render(request, 'operator/op_dashboard.html')
 
-def scanner(request):
-    return render(request, 'operator/qr_scanner.html')
+def entryscanner(request):
+    return render(request, 'operator/entry_operator.html')
+
+def exitscanner(request):
+    return render(request, 'operator/exit_operator.html')
 
 class EntryCreateAPIView(CreateAPIView):
-  
+
     authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
     serializer_class = EntrySerializer
 

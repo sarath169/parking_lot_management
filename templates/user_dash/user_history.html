@@ -1,3 +1,11 @@
+{% extends 'authentication/base.html' %}
+{% load static %}
+
+{% block css_content %}
+  <link rel="stylesheet" type="text/css" href="{% static 'css/user_dash/vehicle_history.css' %}">
+{% endblock %}
+
+{% block content %}
 <h1 class=" active-polls">User's Vehicles</h1>
 {% if list %}
     <ol>
@@ -13,5 +21,4 @@
     <p>No Vehicles.</p>
 
 {% endif %}
-
-<a href="{% url 'auth:logout' %}">Logout</a>
+{% endblock %}

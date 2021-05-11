@@ -1,19 +1,28 @@
-<h1 class=" active-polls">User's Vehicles</h1>
-{% if list %}
-    <ol>
-    {% for vehicle in list %}
+<!DOCTYPE html>
+{% extends 'authentication/base.html' %}
+{% load static %}
 
-    <div class="">
-      <li ><a class="question-list" href="{% url 'user:return_qr' vehicle.id %}">{{vehicle.number}}</a></li>
-    </div>
+{% block css_content %}
+  <link rel="stylesheet" type="text/css" href="{% static 'css/user_dash/vehicles.css' %}">
+{% endblock %}
 
-    {% endfor %}
-    </ol>
-{% else %}
-    <p>No Vehicles.</p>
+{% block content %}
+<div class="main-container">
+  <h1 >User's Vehicles</h1>
+  {% if list %}
+      <ol>
+      {% for vehicle in list %}
 
-{% endif %}
+      <div class="">
+        <li ><a class="question-list" href="{% url 'user:return_qr' vehicle.id %}">{{vehicle.number}}</a></li>
+      </div>
 
-{{image}}
+      {% endfor %}
+      </ol>
+  {% else %}
+      <h1>No Vehicles</h1>
 
-<a href="{% url 'auth:logout' %}">Logout</a>
+  {% endif %}
+
+</div>
+{% endblock %}

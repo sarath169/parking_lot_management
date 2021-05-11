@@ -7,7 +7,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils.encoding import force_text,force_bytes
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 import base64
-from authentication.decorators import payment_req
+from .decorators import payment_req
 from .qr_generator import generation
 from .forms import AddVehicle
 from .models import Vehicle
@@ -21,12 +21,12 @@ def index(request):
 
 @payment_req()
 @login_required
-def addvehicle(request, user_id):
+def addvehicle(request):
     login_url = '/login/'
     if request.method == 'POST':
         form = AddVehicle(request.POST)
         if form.is_valid():
-            user = get_object_or_404(User, pk = user_id)
+            user = request.user
             veh_number = form.cleaned_data.get('number')
             veh_type = form.cleaned_data.get('type')
             if Vehicle.objects.filter(number = veh_number):
@@ -43,6 +43,7 @@ def listvehicles(request):
     login_url = '/login/'
     user = request.user
     vehicles = Vehicle.objects.filter(user_id = user.id )
+
     return render(request,'user_dash/vehicles.html', {"list":vehicles})
 
 @login_required
