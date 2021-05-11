@@ -18,7 +18,7 @@
 
         <div class="container">
            <div class="col-lg-12 col-md-12 text-center " style="text-align: center;">
-                <div class=" camera  pb-5" >
+                <div class=" camera  pb-3" >
                     <video id="preview" width="100%"></video>
                 </div><br>
 
@@ -29,11 +29,11 @@
 
 
                   <div class="qr_result  ">
-                  <span id ="error_message" style = ""></span>
+                  <span id ="error_message" ></span>
                   <br>
-                  <input id="id_qrdata" type="text" name="" value="" class = "qr_data" readonly placeholder = "Vehicle Number">
+                  <input id="id_qrdata" type="text" name="" value="" class = "qr_data" readonly placeholder = "Vehicle Number"> <br><br>
                   <input id="id_user" type="number" name="" value="" class = "qr_data" readonly placeholder = "User Id">
-                  <br>
+                  <br> <br>
                   <span> <button class="mx-2 qr_btn" ><a href="{% url 'operators:verify' %} " style="text-decoration:none; color: black">Back</a></button></span>
                   <span> <button id ="exit" class="qr_btn" type="button" name="button">Submit</button></span>
                   </div>
