@@ -42,7 +42,7 @@ def entryscanner(request):
 #             print("in the entryscanner")
 #             print(veh_number)
             if ParkingHistory.objects.filter(vehicle_id = vehicle.id, out_datetime = None):
-                return render(request, 'operator/qr_scanner.html',{'error_message':'Vehicle already entered in parking'})
+                return render(request, 'operator/qr_scanner.html',{'error_message':'**Vehicle already entered in parking'})
             else:
                 entry_object = ParkingHistory(vehicle = vehicle)
                 entry_object.save()
@@ -66,7 +66,7 @@ def exitscanner(request):
 
             except ObjectDoesNotExist:
 #                 print("ObjectDoesNotExist")
-                return render(request, 'operator/qr_scanner.html',{'error_message':"There is no entry record"})
+                return render(request, 'operator/qr_scanner.html',{'error_message':"**There is no entry record"})
 
             return render(request, 'operator/qr_scanner.html')
     else:
