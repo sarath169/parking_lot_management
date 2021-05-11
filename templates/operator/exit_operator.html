@@ -25,10 +25,12 @@
 
                 <form method="post">
 
-                  {% if error_message %}<p style="color: rgb(212, 16, 16); font-size: 20px;"><strong>{{ error_message }}</strong></p>
-                  {% endif %}
+                  <p id ="error_message" style="color: rgb(212, 16, 16); font-size: 20px;"><strong></strong></p>
+
 
                   <div class="qr_result  ">
+                  <span id ="error_message" style = ""></span>
+                  <br>
                   <input id="id_qrdata" type="text" name="" value="" class = "qr_data" readonly placeholder = "Vehicle Number">
                   <input id="id_user" type="number" name="" value="" class = "qr_data" readonly placeholder = "User Id">
                   <br>
@@ -80,7 +82,11 @@
             data: user_data,
             success: function (data, status) {
                 // Do something with the result
+
                 console.log("Data: " + data + "\nStatus: " + status);
+            },
+            error: function(){
+              $('#error_message').html("The Entry for this vehicle is not present")
             }
           });
       })

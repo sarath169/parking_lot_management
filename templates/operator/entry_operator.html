@@ -25,10 +25,11 @@
 
                 <form method="post">
 
-                <p id = "#error_message" style="color: rgb(212, 16, 16); font-size: 20px;"><strong></strong></p>
+                <p id = "error_message" style="color: rgb(212, 16, 16); font-size: 20px;"><strong></strong></p>
 
                   <div class="qr_result  ">
                   <input id="id_qrdata" type="text" name="" value="" class = "qr_data" readonly placeholder = "Vehicle Number">
+                  <br>
                   <input id="id_user" type="number" name="" value="" class = "qr_data" readonly placeholder = "User Id">
                   <br>
                   <span> <button class="mx-2 qr_btn" ><a href="{% url 'operators:verify' %} " style="text-decoration:none; color: black">Back</a></button></span>
@@ -74,8 +75,14 @@
                       },
                       function(data,status){
                         console.log("Data: " + data + "\nStatus: " + status);
-                      });
+                      })
+              .fail(function() {
+                $('#error_message').html("Vehcile is already in the parking lot");
+              });
           });
+
+
+
         </script>
 
     </body>

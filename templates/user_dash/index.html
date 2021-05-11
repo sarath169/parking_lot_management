@@ -6,12 +6,13 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/user_dash/index.css' %}">
     <title>User_Dashboard</title>
   </head>
   <body>
-    <div class="container text-center" style="font-size:30px; margin-top: 10%; border: 2px solid black; padding-top: 2%;" >
-      <p>{{error_message}}</p>
-          <a href="{% url 'user:add_vehicle' user.id %}">Add Vehicle</a> <br>
+    <div class="container text-center" style="font-size:30px; margin-top: 5%; margin-bottom: 5%; border: 2px solid black; padding-top: 2%; padding-bottom: 2%;" >
+      <p id = "error_message" style="color: rgb(212, 16, 16); font-size: 20px;"><strong>{{error_message}}</strong></p>
+          <a href="{% url 'user:add_vehicle' %}">Add Vehicle</a> <br>
           <a href="{% url 'user:view_vehicles' %}">Registered Vehicles</a> <br>
           <a href="{% url 'user:history' %}">Parking History</a> <br>
     </div>
