@@ -49,7 +49,8 @@ def listvehicles(request):
 def return_qr(request, vehicle_id):
     login_url = '/login/'
     vehicle = get_object_or_404(Vehicle, pk=vehicle_id)
-    qr = generation(vehicle.number)
+    data = vehicle.number+','+str(vehicle.user.id)
+    qr = generation(data)
     img_name = 'media/images/'+str(request.user.id)+str(vehicle.number)+'.png'
     qr.save(img_name)
     hosted_link = 'http://127.0.0.1:8000/'+img_name

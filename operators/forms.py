@@ -5,3 +5,4 @@ from  parking.models import ParkingHistory
 
 class QRForm(forms.Form):
     qrdata = forms.CharField(label='QR Data',max_length=12, widget=forms.TextInput(attrs={'readonly':'readonly'}))
+    user = forms.IntegerField(label='User ID', widget=forms.TextInput(attrs={'readonly':'readonly'}))

@@ -17,17 +17,15 @@
                   {% if error_message %}<p style="color: #db7258; font-size: 25px;"><strong>{{ error_message }}</strong></p>
                   {% endif %}
                 </div>
-
-                <form  method="post">
-                  {% csrf_token %}
-                  <div class="col-md-6">
-                    {{form}}
-                      </div>
-                  <button type="button" name="button">submit</button>
+                <form class="" method="post">
+                  <label for="id_qrdata">Vehicle Number</label>
+                  <input id="id_qrdata" type="text" name="" value="" readonly>
+                  <label for="id_user">User Id</label>
+                  <input id="id_user" type="number" name="" value="" readonly>
                 </form>
-
+                  <button id="entry" type="button" name="button">Entry</button>
+                  <button id="exit" type="button" name="button">Exit</button>
                  <br>
-                
             </div>
         </div>
 
@@ -49,15 +47,49 @@
            });
 
            scanner.addListener('scan',function(c){
-               document.getElementById('id_qrdata').value=c;
+               var res = c.split(",");
+               console.log(res);
+               document.getElementById('id_qrdata').value=res[0];
+               document.getElementById('id_user').value = Number(res[1]);
+               console.log(res[1]);
            });
 
         </script>
         <script type="text/javascript">
-          $('#text').change(function() {
-            var number = $('#text').val();
-          })
-
+          $('#entry').click(function() {
+            var veh_number = $('#id_qrdata').val();
+            var user = $('#id_user').val();
+            console.log(veh_number)
+            const url = 'http://127.0.0.1:8000/operators/entry/';
+            $.post(url ,
+                      {
+                        number: veh_number,
+                        user_id : user,
+                      },
+                      function(data,status){
+                        console.log("Data: " + data + "\nStatus: " + status);
+                      });
+          });
+          $('#exit').click(function() {
+            var veh_number = $('#id_qrdata').val();
+            var user = $('#id_user').val();
+            console.log(veh_number)
+            console.log(user)
+            const url = 'http://127.0.0.1:8000/operators/exitupdate/';
+            var user_data = {
+                number: veh_number,
+                user_id : user,
+              };
+            $.ajax({
+            url: url,
+            type: 'PUT',
+            data: user_data,
+            success: function (data, status) {
+                // Do something with the result
+                console.log("Data: " + data + "\nStatus: " + status);
+            }
+          });
+      })
         </script>
     </body>
 </html>
