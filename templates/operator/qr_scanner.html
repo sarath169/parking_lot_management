@@ -24,40 +24,26 @@
                 
                   
                 <form method="post">
-                  {% csrf_token %}
                
                   {% if error_message %}<p style="color: rgb(212, 16, 16); font-size: 20px;"><strong>{{ error_message }}</strong></p>
                   {% endif %}
                   
                   <div class="qr_result  ">
-                    
-                    <input class="qr_data" type="text" name="qrdata" readonly="readonly" maxlength="12" required="" placeholder="Qr Data"  id="id_qrdata">
-                   
-                      <br><br>
+                  <input id="id_qrdata" type="text" name="" value="" class = "qr_data" readonly placeholder = "Vehicle Number>
+                  <input id="id_user" type="number" name="" value="" class = "qr_data" readonly placeholder = "User Id">
+                      <br>
                       
                       <span> <button class="mx-2 qr_btn" ><a href="{% url 'operators:verify' %} " style="text-decoration:none; color: black">Back</a></button></span>
-                 
-                 <span> <button class="qr_btn" type="submit" name="button">Submit</button></span>
-                 
-                </div>
-                {% if field.help_text %}
-                 <small style="color: rgb(255, 249, 249)">{{ field.help_text }}</small>  
-                 {% endif %}
-                 {% for error in field.errors %}
-                   <p  style="color: red; margin-left: 50px; ">{{ error }}</p>
-                 {% endfor %}
-                      
-                    <p></p>
-                  
-                </form>
-              
-               
-     <br>
-                
-                </div> 
+                      <span> <button id ="entry" class="qr_btn" type="button" name="button">Submit</button></span>
+                  </div>
+                  <button id="entry" type="button" class =  name="button">Entry</button>
+                  <button id="exit" type="button" name="button">Exit</button>
+                  <br>
+                 </form>
+            </div>
         </div>
-
         
+
         <script type="text/javascript" src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
         <script>
            let scanner = new Instascan.Scanner({ video: document.getElementById('preview')});
@@ -73,15 +59,49 @@
            });
 
            scanner.addListener('scan',function(c){
-               document.getElementById('id_qrdata').value=c;
+               var res = c.split(",");
+               console.log(res);
+               document.getElementById('id_qrdata').value=res[0];
+               document.getElementById('id_user').value = Number(res[1]);
+               console.log(res[1]);
            });
 
         </script>
         <script type="text/javascript">
-          $('#text').change(function() {
-            var number = $('#text').val();
-          })
-
+          $('#entry').click(function() {
+            var veh_number = $('#id_qrdata').val();
+            var user = $('#id_user').val();
+            console.log(veh_number)
+            const url = 'http://127.0.0.1:8000/operators/entry/';
+            $.post(url ,
+                      {
+                        number: veh_number,
+                        user_id : user,
+                      },
+                      function(data,status){
+                        console.log("Data: " + data + "\nStatus: " + status);
+                      });
+          });
+          $('#exit').click(function() {
+            var veh_number = $('#id_qrdata').val();
+            var user = $('#id_user').val();
+            console.log(veh_number)
+            console.log(user)
+            const url = 'http://127.0.0.1:8000/operators/exitupdate/';
+            var user_data = {
+                number: veh_number,
+                user_id : user,
+              };
+            $.ajax({
+            url: url,
+            type: 'PUT',
+            data: user_data,
+            success: function (data, status) {
+                // Do something with the result
+                console.log("Data: " + data + "\nStatus: " + status);
+            }
+          });
+      })
         </script>
        
     </body>
