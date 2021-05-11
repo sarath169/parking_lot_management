@@ -17,6 +17,13 @@
         
        
 }
+@media screen and (max-width: 768px) {
+.navbar-collapse{
+    margin-top: 2.5%;
+    padding-left: 3%;
+    background: white;
+}
+}
 
 .pe-site-header__right{
      
@@ -247,12 +254,51 @@
     padding-bottom: 5%;
 }
 .qr_data{
-    width: auto;
+    width: 30%;
     height:40px;
 }
 .qr_result input[type="text"] {
-    
-    font-size: 22px;
-    padding-left: 1%;
-    
+    padding-left: 2%;  
   }
+  .qr_result input[type="number"] {
+    padding-left: 2%;  
+  }
+  
+
+
+  /* historypage------------------------------------------------------ */
+
+
+  .result_head{
+    color:rgb(10, 121, 74);
+     font-family: 'Lobster Two', cursive;
+      font-size: 80px;
+  }
+  @media screen and (max-width: 320px ){
+  .history{
+
+    font-size: 13px;
+
+  }
+}
+@media screen and (max-width: 768px)and (min-width:768px){
+
+    .result_head{
+       
+        font-size: 60px;
+    }
+}
+@media screen and (max-width: 540px ){
+
+    .result_head{
+       
+        font-size: 55px;
+    }
+}
+@media screen and (max-width: 425px ){
+
+    .result_head{
+       
+        font-size: 40px;
+    }
+}
