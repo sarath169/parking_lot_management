@@ -32,20 +32,20 @@
 
     {% block nav %}
     <header class="nav-stick">
-    <nav class="navbar navbar-expand-lg navbar-light   navbar-light"  >
+
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <h2 class="text-info display-7" style="margin-right: 1%; font-weight: 600;" >Parking app</h1>
-
-      <br>
-          <button class="navbar-toggler " type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon   " ></span>
-          </button>
-
-        <div class="collapse navbar-collapse "  id="navbarSupportedContent">
-          <ul class="navbar-nav mr-auto" style="font-size:120%" >
+<br>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
               <a class="nav-link" href="{% url 'auth:home' %}">Home <span class="sr-only">(current)</span></a>
             </li>
-
+            
             <li class="nav-item">
               <a class="nav-link" style="color: black;" href="#">Contact</a>
             </li>
@@ -58,6 +58,10 @@
             </div>
         </div>
       </nav>
+
+
+
+
     </header>
     {% endblock %}
 
