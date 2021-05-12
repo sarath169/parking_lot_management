@@ -1,4 +1,5 @@
 import stripe
+import threading
 
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth import login, authenticate, views
@@ -11,29 +12,28 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.utils.encoding import force_bytes,force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.template.loader import render_to_string
+from django.core.mail import EmailMessage, send_mail
+from django.conf import settings
 
 from .tokens import account_activation_token
 from .forms import SignUpForm
-from django.conf import settings
-from django.core.mail import send_mail
 from .models import Payment
 
-from django.core.mail import EmailMessage
-from authentication.models import Payment
-import threading
 
 stripe.api_key= settings.STRIPE_SECRET_KEY
 
 
 class EmailThread(threading.Thread):
+
     def __init__(self, email):
         self.email=email
         threading.Thread.__init__(self)
-    
+
     def run(self):
         self.email.send()
 
 def home(request):
+
     return render(request, 'authentication/home.html')
 
 class CreditPageView(TemplateView):
@@ -42,7 +42,7 @@ class CreditPageView(TemplateView):
     def get_context_data(self, **kwargs):
         context=super().get_context_data(**kwargs)
         context['key']=settings.STRIPE_PUBLISHABLE_KEY
-        
+
         return context
 
 def charge(request):
@@ -56,26 +56,32 @@ def charge(request):
         user=request.user
         payment=Payment( user= user, status=True)
         payment.save()
+
         return redirect('/user/')
 
 
 def account_activation_sent(request):
+
     return render(request, 'authentication/account_activation_sent.html')
 
 def activate(request, uidb64, token):
     try:
         uid = force_text(urlsafe_base64_decode(uidb64))
         user = User.objects.get(pk=uid)
-        
+
     except (TypeError, ValueError, OverflowError, User.DoesNotExist):
         user = None
+
     if user is not None and account_activation_token.check_token(user, token):
         user.is_active = True
         user.profile.email_confirmed = True
         user.save()
         login(request, user)
+
         return redirect('/auth/credit_card/')
+
     else:
+
         return render(request, 'account_activation_invalid.html')
 
 def signup(request):
@@ -102,10 +108,12 @@ def signup(request):
                 message,
                 email_from,
                 [to]
-            ) 
-            EmailThread(email).start()            
+            )
+            EmailThread(email).start()
+
             return redirect('/auth/account_activation_sent')
+
     else:
         form = SignUpForm()
+        
     return render(request, 'authentication/signup.html', {'form': form})
-    

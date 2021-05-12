@@ -17,31 +17,40 @@ from parking.models import ParkingHistory
 @login_required
 def index(request):
     login_url = '/login/'
+
     return render(request,'user_dash/index.html')
 
+# payment_req decorator is to check whether the user completed the payment or not
 @payment_req()
 @login_required
 def addvehicle(request):
     login_url = '/login/'
+
     if request.method == 'POST':
         form = AddVehicle(request.POST)
         if form.is_valid():
             user = request.user
             veh_number = form.cleaned_data.get('number')
             veh_type = form.cleaned_data.get('type')
-            if Vehicle.objects.filter(number = veh_number):
+            # To check whether the vehicle is already registered
+            if Vehicle.objects.filter(number = veh_number, user = user):
+
                 return redirect('/user/')
+
             vehicle_object=Vehicle(number = veh_number, type = veh_type, user = user )
             vehicle_object.save()
+
             return redirect('/user/vehicles/')
     else:
         form = AddVehicle()
-    return render(request, 'user_dash/add_vehicle.html', {'form': form})
+
+        return render(request, 'user_dash/add_vehicle.html', {'form': form})
 
 @login_required
 def listvehicles(request):
     login_url = '/login/'
     user = request.user
+    # To get all the vehicles registered with a user
     vehicles = Vehicle.objects.filter(user_id = user.id )
 
     return render(request,'user_dash/vehicles.html', {"list":vehicles})
@@ -50,11 +59,17 @@ def listvehicles(request):
 def return_qr(request, vehicle_id):
     login_url = '/login/'
     vehicle = get_object_or_404(Vehicle, pk=vehicle_id)
+    # the data contains vehicle number and user id
     data = vehicle.number+','+str(vehicle.user.id)
+    # To generate the QR Code
     qr = generation(data)
     img_name = 'media/images/'+str(request.user.id)+str(vehicle.number)+'.png'
+    # To save the image at media/images/
     qr.save(img_name)
+    # To render the image in vehicle_qr.html
+    # hosted link is source for the image
     hosted_link = 'http://127.0.0.1:8000/'+img_name
+
     return render(request, 'user_dash/vehicle_qr.html',{'image': hosted_link})
 
 @login_required
@@ -62,6 +77,7 @@ def vehicleparking(request):
     login_url = '/login/'
     user = request.user
     vehicles = Vehicle.objects.filter(user_id = user.id )
+
     return render(request,'user_dash/user_history.html', {"list":vehicles})
 
 
@@ -70,4 +86,5 @@ def parking_history(request, vehicle_id):
     login_url = '/login/'
     vehicle = get_object_or_404(Vehicle, pk=vehicle_id)
     history = ParkingHistory.objects.filter(vehicle = vehicle)
+
     return render(request,'user_dash/history.html', {"history":history, "vehicle":vehicle})

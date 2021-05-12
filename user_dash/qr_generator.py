@@ -7,8 +7,9 @@ def generation(data):
         box_size=10,
         border=4,
     )
+    # data is the variable which takes the QR data
     qr.add_data(data)
     qr.make(fit=True)
+    img = qr.make_image(fill_color = "black", back_color = "white")
 
-    img = qr.make_image(fill_color="black", back_color="white")
     return img

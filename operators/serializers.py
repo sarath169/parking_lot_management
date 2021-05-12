@@ -3,6 +3,7 @@ from user_dash.models import Vehicle
 
 class EntrySerializer(serializers.ModelSerializer):
     user_id = serializers.IntegerField(min_value=1, required = True)
+
     class Meta:
         model = Vehicle
         fields = ('number', 'user_id')

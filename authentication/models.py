@@ -13,8 +13,10 @@ class Profile(models.Model):
 def update_user_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user = instance)
+
     instance.profile.save()
 
 class Payment(models.Model):
+    # OneToOneField with User Model
     user = models.OneToOneField(User, on_delete = models.CASCADE)
     status = models.BooleanField( default = False)

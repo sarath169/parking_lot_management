@@ -8,6 +8,6 @@ def payment_req():
             if Payment.objects.filter(user_id = user.id, status='True'):
                 return func(request, *args, **kwargs)
             else:
-                return render(request,'user_dash/index.html',{'error_message': "Pay the registration fee to add vehicles"})
+                return render(request,'authentication/credit_card.html',{'error_message': "Pay the registration fee to add vehicles"})
         return wrap
     return decorators

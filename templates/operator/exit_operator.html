@@ -32,7 +32,7 @@
                   <span id ="error_message" ></span>
                   <br>
                   <input id="id_qrdata" type="text" name="" value="" class = "qr_data" readonly placeholder = "Vehicle Number"> <br><br>
-                  <input id="id_user" type="number" name="" value="" class = "qr_data" readonly placeholder = "User Id">
+                  <input hidden id="id_user" type="number" name="" value="" class = "qr_data" readonly placeholder = "User Id">
                   <br> <br>
                   <span> <button class="mx-2 qr_btn" ><a href="{% url 'operators:verify' %} " style="text-decoration:none; color: black">Back</a></button></span>
                   <span> <button id ="exit" class="qr_btn" type="button" name="button">Submit</button></span>
