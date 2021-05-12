@@ -8,6 +8,7 @@
 {% endblock %}
 
 {% block content %}
+  <a href="{% url 'user:view_vehicles' %}" class="btn btn-outline-dark back">Back</a>
   <div class="text-center qr_code">
     <img src= {{image}} alt="">
   </div>
